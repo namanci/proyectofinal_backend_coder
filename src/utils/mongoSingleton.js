@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const dotenv = require('dotenv').config()
+const logger = require('../config/logger.js')
+const { cfgObj } = require('../config/configObject.js')
 
 class MongoSingleton {
     static instance
@@ -10,20 +11,20 @@ class MongoSingleton {
 
     static getInstance() {
         if (!this.instance) {
-            console.log('Connecting to database')
+            logger.info('Connecting to database')
             this.instance = new MongoSingleton()
         } else {
-            console.log('Database already connected')
+            logger.warn('Database already connected')
         }
         return this.instance
     }
 
     async connect() {
         try {
-            await mongoose.connect(process.env.MONGO_URI)
-            console.log('Connected to database')
+            await mongoose.connect( cfgObj.mongo_uri )
+            logger.info('Connected to database')
         } catch (err) {
-            console.error('Error connecting to database:', err)
+            logger.error('Error connecting to database:', err)
         }
     }
 }
