@@ -20,13 +20,17 @@ server.use(express.static(__dirname + '/public'))
 server.use(cookie())
 
 server.use(session({
-    secret: cfgObj.jwt_secret,
+    secret: cfgObj.session_secret,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
         mongoUrl: cfgObj.mongo_uri,
         ttl: 14 * 24 * 60 * 60 //14d
-    })
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 14, // 14d
+        httpOnly: true
+    }
 }))
 
 initializePassport()

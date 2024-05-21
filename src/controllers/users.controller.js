@@ -17,8 +17,36 @@ class UsersController {
         try {
             const { email, password } = req.body
             const { user, token } = await UsersService.loginUser(email, password)
-            res.cookie('token', token, { httpOnly: true })
-            res.status(200).json(user)
+
+            req.login(user, { session: true }, (err) => {
+                if (err) {
+                    return next(err)
+                }
+
+                res.cookie('token', token, { httpOnly: true })
+                res.status(200).json(user)
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    // Desconectar Usuario
+    async logout(req, res, next) {
+        try {
+            req.logout((err) => {
+                if (err) {
+                    return next(err)
+                }
+                req.session.destroy((err) => {
+                    if (err) {
+                        return next(err)
+                    }
+                    res.clearCookie('connect.sid')
+                    res.clearCookie('token')
+                    res.status(200).json({ message: 'Logout successful' })
+                })
+            })
         } catch (error) {
             next(error)
         }
@@ -76,16 +104,6 @@ class UsersController {
             const { page, limit } = req.query
             const paginatedUsers = await UsersService.getUsersPaginated(page, limit)
             res.status(200).json(paginatedUsers)
-        } catch (error) {
-            next(error)
-        }
-    }
-
-    // Desconectar Usuario
-    async logout(req, res, next) {
-        try {
-            res.clearCookie('token')
-            res.status(200).json({ message: 'Logout successful' })
         } catch (error) {
             next(error)
         }
