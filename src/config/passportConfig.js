@@ -1,7 +1,6 @@
 const passport = require('passport')
 const passport_jwt = require('passport-jwt')
 const { cfgObj } = require('./configObject.js')
-const logger = require('./logger.js')
 const usersRepository = require('../repositories/users.repository.js')
 
 const JWTStrategy = passport_jwt.Strategy
@@ -12,7 +11,6 @@ const initializePassport = () => {
         let token = null
         if (req && req.cookies) {
             token = req.cookies['token']
-            logger.info(token)
         }
         return token
     }
