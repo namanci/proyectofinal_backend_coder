@@ -11,7 +11,7 @@ router.post('/register', UsersController.register)
 router.post('/login', UsersController.login)
 
 // Ruta para el cierre de sesión (logout)
-router.post('/logout', UsersController.logout)
+router.get('/logout', UsersController.logout)
 
 // Ruta para actualizar el perfil del usuario autenticado
 router.put('/update', isAuthenticated, UsersController.updateProfile)

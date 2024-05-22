@@ -1,0 +1,47 @@
+<header class="uk-background-muted uk-padding-small">
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+            <a class="uk-navbar-item uk-logo" href="/">LOGO</a>
+        </div>
+        <div class="uk-navbar-center">
+            <ul class="uk-navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/products">Products</a></li>
+            </ul>
+        </div>
+        <div class="uk-navbar-right">
+            {{#if user}}
+            <a id="logoutButton" class="uk-button uk-button-primary">Logout</a>
+            {{!-- {{else}}
+            <a href="/login" class="uk-button uk-button-primary">Login</a> --}}
+            {{/if}}
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const logoutButton = document.getElementById('logoutButton')
+                if (logoutButton) {
+                    logoutButton.addEventListener('click', async () => {
+                        try {
+                            const response = await fetch('/api/users/logout', {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+
+                            if (response.ok) {
+                                window.location.href = '/'
+                            } else {
+                                const result = await response.json()
+                                alert(result.message)
+                            }
+                        } catch (error) {
+                            console.error('Error:', error)
+                            alert('An error occurred while logging out.')
+                        }
+                    })
+                }
+            })
+        </script>
+    </nav>
+</header>

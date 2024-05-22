@@ -1,0 +1,23 @@
+<div class="uk-section">
+    <div class="uk-container">
+        <h1>Our Products</h1>
+        <div class="uk-grid-small uk-child-width-1-3@s uk-flex-center" uk-grid>
+            {{#each products}}
+            <div>
+                <div class="uk-card uk-card-default uk-card-body">
+                    <h3 class="uk-card-title">{{this.title}}</h3>
+                    <p>{{this.description}}</p>
+                    <p>Price: ${{this.price}}</p>
+                    <p>Stock: {{this.stock}}</p>
+                    {{#if ../user}}
+                    {{#ifEquals ../user._id this.owner._id ../user.role}}
+                    <a href="/api/products/edit/{{this._id}}" class="uk-button uk-button-default">Edit</a>
+                    <a href="/api/products/delete/{{this._id}}" class="uk-button uk-button-danger">Delete</a>
+                    {{/ifEquals}}
+                    {{/if}}
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

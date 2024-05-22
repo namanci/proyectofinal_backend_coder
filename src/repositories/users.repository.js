@@ -16,7 +16,7 @@ class UsersRepository {
     // Obtener todos los usuarios
     async getUsers() {
         try {
-            return await userModel.find({}).exec()
+            return await userModel.find({}).lean().exec()
         } catch (error) {
             throw new Error('Error fetching users: ' + error.message)
         }
@@ -38,7 +38,7 @@ class UsersRepository {
     // Obtener un usuario por un filtro (ID, Email, etc)
     async getUserBy(filter) {
         try {
-            return await userModel.findOne(filter).exec()
+            return await userModel.findOne(filter).lean().exec()
         } catch (error) {
             throw new Error('Error fetching user: ' + error.message)
         }

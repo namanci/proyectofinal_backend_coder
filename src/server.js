@@ -1,5 +1,6 @@
 const express = require('express')
 const handlebars = require('express-handlebars')
+const path = require('path')
 const { connectDb } = require('./config/database.js')
 const logger = require('./config/logger.js')
 const { cfgObj } = require('./config/configObject.js')
@@ -38,9 +39,18 @@ server.use(passport.initialize())
 server.use(passport.session())
 server.use(addLogger)
 
-server.engine('hbs', handlebars.engine({ extname: '.hbs' }))
+server.engine('hbs', handlebars.engine({ 
+    extname: '.hbs',
+    layoutsDir: path.join(__dirname, 'views/layouts'),
+    partialsDir: path.join(__dirname, 'views/partials'),
+    defaultLayout: 'main',
+    helpers: require('./helpers/handlebars.js'),
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+}))
 server.set('view engine', 'hbs')
 server.set('views', __dirname + '/views')
+//server.set('views', path.join(__dirname, 'views'))
 
 server.use(serverRouter)
 

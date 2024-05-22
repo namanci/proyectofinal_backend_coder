@@ -22,9 +22,9 @@ class UsersController {
                 if (err) {
                     return next(err)
                 }
-
                 res.cookie('token', token, { httpOnly: true })
                 res.status(200).json(user)
+                //res.status(200).json({ message: 'Login successful', redirect: '/' })
             })
         } catch (error) {
             next(error)
