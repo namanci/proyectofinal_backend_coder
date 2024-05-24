@@ -4,7 +4,7 @@ class ProductsController {
     async createProduct(req, res, next) {
         try {
             const productData = req.body
-            productData.owner = req.user.id
+            productData.owner = req.user._id
             const newProduct = await ProductsService.createProduct(productData)
             res.status(201).json(newProduct)
         } catch (error) {

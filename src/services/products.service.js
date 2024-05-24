@@ -16,7 +16,7 @@ class ProductsService {
 
     async updateProduct(productId, updateData, user) {
         const product = await ProductsRepository.getProductById(productId)
-        if (product.owner.id !== user.id && user.role !== 'admin') {
+        if (product.owner._id.toString() !== user._id.toString() && user.role !== 'admin') {
             throw new Error('Unauthorized')
         }
         return await ProductsRepository.updateProduct(productId, updateData)
@@ -24,7 +24,7 @@ class ProductsService {
 
     async deleteProduct(productId, user) {
         const product = await ProductsRepository.getProductById(productId)
-        if (product.owner.id !== user.id && user.role !== 'admin') {
+        if (product.owner._id.toString() !== user._id.toString() && user.role !== 'admin') {
             throw new Error('Unauthorized')
         }
         return await ProductsRepository.deleteProduct(productId)

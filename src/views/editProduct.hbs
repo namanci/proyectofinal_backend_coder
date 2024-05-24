@@ -1,0 +1,70 @@
+<div class="uk-container">
+    <h1>Edit Product</h1>
+    <form id="editProductForm">
+        <div class="uk-margin">
+            <label for="title">Title</label>
+            <input class="uk-input" type="text" name="title" value="{{product.title}}" required>
+        </div>
+        <div class="uk-margin">
+            <label for="description">Description</label>
+            <textarea class="uk-textarea" name="description" required>{{product.description}}</textarea>
+        </div>
+        <div class="uk-margin">
+            <label for="thumbnail">Thumbnail URL</label>
+            <input class="uk-input" type="text" name="thumbnail" value="{{product.thumbnail}}" required>
+        </div>
+        <div class="uk-margin">
+            <label for="price">Price</label>
+            <input class="uk-input" type="number" name="price" value="{{product.price}}" required>
+        </div>
+        <div class="uk-margin">
+            <label for="stock">Stock</label>
+            <input class="uk-input" type="number" name="stock" value="{{product.stock}}" required>
+        </div>
+        <button class="uk-button uk-button-primary" type="submit">Update Product</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('editProductForm').addEventListener('submit', async function (event) {
+        event.preventDefault()
+
+        let productId = '{{product._id}}'
+        let title = document.querySelector('input[name="title"]').value
+        let description = document.querySelector('textarea[name="description"]').value
+        let thumbnail = document.querySelector('input[name="thumbnail"]').value
+        let price = document.querySelector('input[name="price"]').value
+        let stock = document.querySelector('input[name="stock"]').value
+
+        try {
+            const response = await fetch(`/api/products/${productId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                thumbnail,
+                price,
+                stock
+            })
+        })
+
+        const result = await response.json()
+        
+        if (response.ok) {
+            UIkit.modal.alert(
+                'Product updated succesfully!'
+                ).then(function () {
+                    window.location.href = '/products'
+                })
+        } else {
+            alert(result.message)
+        }
+        } catch {error} {
+            console.error('Error:', error)
+            alert('An error occurred while editing product.')
+        }
+    })
+</script>

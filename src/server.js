@@ -50,7 +50,6 @@ server.engine('hbs', handlebars.engine({
 }))
 server.set('view engine', 'hbs')
 server.set('views', __dirname + '/views')
-//server.set('views', path.join(__dirname, 'views'))
 
 server.use(serverRouter)
 

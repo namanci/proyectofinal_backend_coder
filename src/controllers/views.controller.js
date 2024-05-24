@@ -26,6 +26,20 @@ class ViewsController {
             next(error)
         }
     }
+
+    static async renderEditProduct(req, res, next) {
+        try {
+            const productId = req.params.id
+            const product = await productsService.getProductById(productId)
+            res.render('editProduct', { 
+                title: 'Edit Product',
+                user: req.user,
+                product: product.toObject()
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = ViewsController
