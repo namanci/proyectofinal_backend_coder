@@ -6,12 +6,16 @@ class ProductsService {
         return await ProductsRepository.createProduct(productData)
     }
 
+    async getAllProducts() {
+        return await ProductsRepository.getAllProducts()
+    }
+
     async getProductById(productId) {
         return await ProductsRepository.getProductById(productId)
     }
 
-    async getAllProducts() {
-        return await ProductsRepository.getAllProducts()
+    async getUserProducts(ownerId) {
+        return await ProductsRepository.getProductsByOwner(ownerId)
     }
 
     async updateProduct(productId, updateData, user) {

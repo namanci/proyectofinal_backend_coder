@@ -21,7 +21,7 @@ server.use(express.static(__dirname + '/public'))
 server.use(cookie())
 
 server.use(session({
-    secret: cfgObj.session_secret,
+    secret: cfgObj.jwt_secret, //cfgObj.session_secret,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({

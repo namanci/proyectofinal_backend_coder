@@ -6,12 +6,16 @@ class ProductsRepository {
         return await product.save()
     }
 
+    async getAllProducts() {
+        return await productModel.find().lean().populate('owner')
+    }
+
     async getProductById(productId) {
         return await productModel.findById(productId).populate('owner')
     }
 
-    async getAllProducts() {
-        return await productModel.find().lean().populate('owner')
+    async getProductsByOwner(ownerId) {
+        return await productModel.find({ owner: ownerId }).lean()
     }
 
     async updateProduct(productId, updateData) {

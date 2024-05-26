@@ -42,7 +42,10 @@
                     }
                 } catch (error) {
                     console.error('Error:', error)
-                    alert('An error occurred while logging in.')
+                    UIkit.notification(
+                        "An error occurred while logging in.<br>Please verify your username and password.",
+                        {status: 'danger', pos: 'bottom-center'}
+                    )
                 }
             })
         </script>

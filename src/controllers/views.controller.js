@@ -17,8 +17,20 @@ class ViewsController {
         try {
             const products = await productsService.getAllProducts()
             res.render('products', {
-                //layout: 'main',
                 title: 'Products',
+                user: req.user,
+                products
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async renderUserProducts(req, res, next) {
+        try {
+            const userId = req.user._id
+            const products = await productsService.getUserProducts(userId)
+            res.render('userProducts', { 
                 user: req.user,
                 products
             })

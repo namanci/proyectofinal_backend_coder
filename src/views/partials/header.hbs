@@ -5,17 +5,16 @@
         </div>
         <div class="uk-navbar-center">
             <ul class="uk-navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="/products">Products</a></li>
+                <li><a class="uk-button uk-button-text" href="/">Home</a></li>
+                <li><a class="uk-button uk-button-text" href="/products">Products</a></li>
             </ul>
         </div>
         <div class="uk-navbar-right">
             {{#if user}}
             <a id="logoutButton" class="uk-button uk-button-primary">Logout</a>
-            {{!-- {{else}}
-            <a href="/login" class="uk-button uk-button-primary">Login</a> --}}
             {{/if}}
         </div>
+        {{#if user}}
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const logoutButton = document.getElementById('logoutButton')
@@ -43,5 +42,6 @@
                 }
             })
         </script>
+        {{/if}}
     </nav>
 </header>

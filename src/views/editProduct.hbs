@@ -1,28 +1,30 @@
-<div class="uk-container">
-    <h1>Edit Product</h1>
-    <form id="editProductForm">
-        <div class="uk-margin">
-            <label for="title">Title</label>
-            <input class="uk-input" type="text" name="title" value="{{product.title}}" required>
-        </div>
-        <div class="uk-margin">
-            <label for="description">Description</label>
-            <textarea class="uk-textarea" name="description" required>{{product.description}}</textarea>
-        </div>
-        <div class="uk-margin">
-            <label for="thumbnail">Thumbnail URL</label>
-            <input class="uk-input" type="text" name="thumbnail" value="{{product.thumbnail}}" required>
-        </div>
-        <div class="uk-margin">
-            <label for="price">Price</label>
-            <input class="uk-input" type="number" name="price" value="{{product.price}}" required>
-        </div>
-        <div class="uk-margin">
-            <label for="stock">Stock</label>
-            <input class="uk-input" type="number" name="stock" value="{{product.stock}}" required>
-        </div>
-        <button class="uk-button uk-button-primary" type="submit">Update Product</button>
-    </form>
+<div class="uk-section">
+    <div class="uk-container">
+        <h1>Edit Product</h1>
+        <form id="editProductForm">
+            <div class="uk-margin">
+                <label for="title">Title</label>
+                <input class="uk-input" type="text" name="title" value="{{product.title}}" required>
+            </div>
+            <div class="uk-margin">
+                <label for="description">Description</label>
+                <textarea class="uk-textarea" name="description" required>{{product.description}}</textarea>
+            </div>
+            <div class="uk-margin">
+                <label for="thumbnail">Thumbnail URL</label>
+                <input class="uk-input" type="text" name="thumbnail" value="{{product.thumbnail}}" required>
+            </div>
+            <div class="uk-margin">
+                <label for="price">Price</label>
+                <input class="uk-input" type="number" name="price" value="{{product.price}}" required>
+            </div>
+            <div class="uk-margin">
+                <label for="stock">Stock</label>
+                <input class="uk-input" type="number" name="stock" value="{{product.stock}}" required>
+            </div>
+            <button class="uk-button uk-button-primary" type="submit">Update Product</button>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -38,31 +40,31 @@
 
         try {
             const response = await fetch(`/api/products/${productId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title,
-                description,
-                thumbnail,
-                price,
-                stock
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title,
+                    description,
+                    thumbnail,
+                    price,
+                    stock
+                })
             })
-        })
 
-        const result = await response.json()
-        
-        if (response.ok) {
-            UIkit.modal.alert(
-                'Product updated succesfully!'
+            const result = await response.json()
+
+            if (response.ok) {
+                UIkit.modal.alert(
+                    'Product updated succesfully!'
                 ).then(function () {
                     window.location.href = '/products'
                 })
-        } else {
-            alert(result.message)
-        }
-        } catch {error} {
+            } else {
+                alert(result.message)
+            }
+        } catch (error) {
             console.error('Error:', error)
             alert('An error occurred while editing product.')
         }

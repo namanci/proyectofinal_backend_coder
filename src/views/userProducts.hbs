@@ -1,0 +1,74 @@
+<div class="uk-section">
+    <div class="uk-container">
+        <h1>My Products</h1>
+        <table class="uk-table uk-table-hover uk-table-divider">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                    <td>{{this.title}}</td>
+                    <td>${{this.price}}</td>
+                    <td>{{this.stock}}</td>
+                    <td>
+                        <button class="uk-icon-button" uk-icon="file-edit" uk-tooltip="edit" onclick="window.location.href='/products/edit/{{this._id}}'"></button>
+                        <button class="uk-icon-button uk-margin-small-left delete-btn" uk-icon="trash" uk-tooltip="delete" data-id="{{this._id}}"></button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div id="delete-confirm-modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h2 class="uk-modal-title">Are you sure?</h2>
+            <p>Do you really want to delete this product?</p>
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-danger" id="confirm-delete-btn" type="button">Yes</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-btn')
+        let productId
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                productId = this.getAttribute('data-id')
+                UIkit.modal('#delete-confirm-modal').show()
+            })
+        })
+        const confirmDeleteButton = document.getElementById('confirm-delete-btn')
+        confirmDeleteButton.addEventListener('click', async function () {
+            if (productId) {
+                try {
+                    const response = await fetch(`/api/products/${productId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+
+                    if (response.ok) {
+                        window.location.href = '/my-products'
+                    } else {
+                        const result = await response.json()
+                        alert(result.message)
+                    }
+                } catch (error) {
+                    console.error('Error:', error)
+                    alert('An error occurred while deleting product.')
+                }
+            }
+        })
+    })
+</script>
