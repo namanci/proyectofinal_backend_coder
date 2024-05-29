@@ -1,10 +1,11 @@
 <div class="uk-section">
     <div class="uk-container">
-        <h1>Welcome to our site</h1>
+        <h1 class="uk-heading-divider">Welcome to our site</h1>
         {{#if user}}
-        <p>Welcome {{user.first_name}} {{user.last_name}}</p>
+        <p>Logged in as {{user.first_name}} {{user.last_name}}</p>
         {{else}}
         <p>Please log in to access more features.</p>
+        <p>Don't have an account? <a href="/sign-up" class="uk-link-muted">Sign Up</a></p>
         <form id="loginForm" action="/api/users/login" method="POST">
             <div class="uk-margin">
                 <label for="email">Email:</label>
@@ -15,7 +16,7 @@
                 <input class="uk-input" type="password" id="password" name="password" placeholder="Enter your password"
                     required>
             </div>
-            <button class="uk-button uk-button-primary" type="submit">Login</button>
+            <button class="uk-button uk-button-primary" type="submit">Log In</button>
         </form>
         <script>
             document.getElementById('loginForm').addEventListener('submit', async function (event) {

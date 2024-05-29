@@ -1,7 +1,7 @@
 <header class="uk-background-muted uk-padding-small">
-    <nav class="uk-navbar-container" uk-navbar>
+    <nav class="uk-navbar-container uk-container" uk-navbar>
         <div class="uk-navbar-left">
-            <a class="uk-navbar-item uk-logo" href="/">LOGO</a>
+            <a class="uk-logo" href="/">LOGO</a>
         </div>
         <div class="uk-navbar-center">
             <ul class="uk-navbar-nav">
@@ -11,7 +11,20 @@
         </div>
         <div class="uk-navbar-right">
             {{#if user}}
-            <a id="logoutButton" class="uk-button uk-button-primary">Logout</a>
+            <div class="uk-navbar-item">
+                <a href="#" class="uk-link-reset">
+                    <span uk-icon="icon: bag"></span>
+                    <span class="uk-badge">0</span>
+                </a>
+                <a href="#" class="uk-link-reset uk-margin-small-left"><span uk-icon="icon: user"></span></a>
+                <div uk-dropdown="pos: bottom-center; animation: reveal-left; animate-out: true; duration: 700">
+                    <ul class="uk-nav uk-nav-secondary uk-dropdown-nav">
+                        {{#ifEquals user.role "admin"}}<li><a href="/manage-users"><span uk-icon="icon: users"></span> Manage Users</a></li>{{/ifEquals}}
+                        <li><a href="/edit-profile"><span uk-icon="icon: pencil"></span> Edit Profile</a></li>
+                        <li><a id="logoutButton"><span uk-icon="icon: sign-out"></span> Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
             {{/if}}
         </div>
         {{#if user}}

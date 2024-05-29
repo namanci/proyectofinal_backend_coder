@@ -1,6 +1,6 @@
 <div class="uk-section">
     <div class="uk-container">
-        <h1>Our Products</h1>
+        <h1 class="uk-heading-divider uk-heading-bullet">Our Products</h1>
         {{#if user}}
         {{#ifEqualsOrAdmin user.role 'premium' user.role}}
         <button class="uk-button uk-button-primary uk-margin-bottom" onclick="window.location.href='/my-products'">My Products</button>

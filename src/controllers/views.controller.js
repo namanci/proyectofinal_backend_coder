@@ -1,10 +1,10 @@
 const productsService = require("../services/products.service")
+const usersService = require("../services/users.service")
 
 class ViewsController {
     static async renderHome(req, res, next) {
         try {
             res.render('home', {
-                //layout: 'main',
                 title: 'Home',
                 user: req.user
             })
@@ -30,9 +30,21 @@ class ViewsController {
         try {
             const userId = req.user._id
             const products = await productsService.getUserProducts(userId)
-            res.render('userProducts', { 
+            res.render('userProducts', {
+                title: 'My Products',
                 user: req.user,
                 products
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async renderNewProduct(req, res, next) {
+        try {
+            res.render('newProduct', { 
+                title: 'New Product',
+                user: req.user
             })
         } catch (error) {
             next(error)
@@ -47,6 +59,38 @@ class ViewsController {
                 title: 'Edit Product',
                 user: req.user,
                 product: product.toObject()
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async renderSignUp(req, res, next) {
+        try {
+            res.render('signUp', { title: 'Sign Up' })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async renderEditProfile(req, res, next) {
+        try {
+            res.render('editProfile', {
+                title: 'Edit Profiler',
+                user: req.user
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async renderManageUsers(req, res, next) {
+        try {
+            const users = await usersService.getAllUsers()
+            res.render('manageUsers', { 
+                title: 'Manage Users',
+                user: req.user,
+                users
             })
         } catch (error) {
             next(error)

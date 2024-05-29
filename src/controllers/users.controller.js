@@ -24,7 +24,6 @@ class UsersController {
                 }
                 res.cookie('token', token, { httpOnly: true })
                 res.status(200).json(user)
-                //res.status(200).json({ message: 'Login successful', redirect: '/' })
             })
         } catch (error) {
             next(error)
@@ -55,7 +54,7 @@ class UsersController {
     // Actualización del perfil del usuario
     async updateProfile(req, res, next) {
         try {
-            const userId = req.user.id
+            const userId = req.user._id
             const updateData = req.body
             const updatedUser = await UsersService.updateUserProfile(userId, updateData)
             res.status(200).json(updatedUser)

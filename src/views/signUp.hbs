@@ -1,0 +1,74 @@
+<div class="uk-section">
+    <div class="uk-container">
+        <h1 class="uk-heading-divider uk-heading-bullet">Create your account</h1>
+        <form id="sign-up-form" class="uk-form-stacked">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="first_name">First Name:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="first_name" name="first_name" type="text" required>
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="last_name">Last Name:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="last_name" name="last_name" type="text" required>
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="email">Email:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="email" name="email" type="email" required>
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="password">Password:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="password" name="password" type="password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="uk-button uk-button-primary">Register</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('sign-up-form').addEventListener('submit', async function (event) {
+        event.preventDefault()
+        const firstName = document.getElementById('first_name').value
+        const lastName = document.getElementById('last_name').value
+        const email = document.getElementById('email').value
+        const password = document.getElementById('password').value
+        try {
+            const response = await fetch('/api/users/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                password: password
+            })
+            })
+            
+            if (response.ok) {
+                UIkit.modal.alert(
+                    'Registration completed!<br>You can now log in with your credentials.'
+                ).then(function () {
+                    window.location.href = '/'
+                })
+            } else {
+                const result = await response.json()
+                alert(result.message)
+            }
+        } catch (error){
+            console.error('Error:', error)
+            alert('Registration failed.')
+        }
+    })
+</script>
