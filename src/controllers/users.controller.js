@@ -1,7 +1,6 @@
 const UsersService = require('../services/users.service.js')
 
 class UsersController {
-    // Registro de nuevo usuario
     async register(req, res, next) {
         try {
             const userData = req.body
@@ -12,7 +11,6 @@ class UsersController {
         }
     }
 
-    // Inicio de sesión de usuario
     async login(req, res, next) {
         try {
             const { email, password } = req.body
@@ -30,7 +28,6 @@ class UsersController {
         }
     }
 
-    // Desconectar Usuario
     async logout(req, res, next) {
         try {
             req.logout((err) => {
@@ -51,7 +48,6 @@ class UsersController {
         }
     }
 
-    // Actualización del perfil del usuario
     async updateProfile(req, res, next) {
         try {
             const userId = req.user._id
@@ -63,10 +59,9 @@ class UsersController {
         }
     }
 
-    // Cambio de contraseña del usuario
     async changePassword(req, res, next) {
         try {
-            const userId = req.user.id
+            const userId = req.user._id
             const { newPassword } = req.body
             const updatedUser = await UsersService.changeUserPassword(userId, newPassword)
             res.status(200).json(updatedUser)
@@ -75,7 +70,6 @@ class UsersController {
         }
     }
 
-    // Obtener todos los usuarios
     async getAllUsers(req, res, next) {
         try {
             const users = await UsersService.getAllUsers()
@@ -85,7 +79,6 @@ class UsersController {
         }
     }
 
-    // Actualización del rol del usuario
     async updateUserRole(req, res, next) {
         try {
             const userId = req.params.id
@@ -97,7 +90,6 @@ class UsersController {
         }
     }
 
-    // Obtener usuarios con paginación
     async getUsersPaginated(req, res, next) {
         try {
             const { page, limit } = req.query
@@ -108,7 +100,6 @@ class UsersController {
         }
     }
 
-    // Eliminar usuario
     async deleteUser(req, res, next) {
         try {
             const { id } = req.params

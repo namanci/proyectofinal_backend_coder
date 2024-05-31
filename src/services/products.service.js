@@ -1,4 +1,3 @@
-const logger = require('../config/logger.js')
 const ProductsRepository = require('../repositories/products.repository.js')
 
 class ProductsService {

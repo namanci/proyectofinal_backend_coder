@@ -4,7 +4,6 @@ const { cfgObj } = require('../config/configObject.js')
 const { verifyPassword } = require('../utils/hashPassword.js')
 
 class UsersService {
-    // Registrar un nuevo usuario
     async registerUser(userData) {
         try {
             // Verificar si el usuario ya existe
@@ -21,7 +20,6 @@ class UsersService {
         }
     }
 
-    // Iniciar sesión del usuario
     async loginUser(email, password) {
         try {
             const user = await UsersRepository.getUserBy({ email })
@@ -46,7 +44,6 @@ class UsersService {
         }
     }
 
-    // Actualizar el perfil del usuario
     async updateUserProfile(userId, updateData) {
         try {
             const updatedUser = await UsersRepository.updateUserById(userId, updateData)
@@ -56,7 +53,6 @@ class UsersService {
         }
     }
 
-    // Cambiar la contraseña del usuario
     async changeUserPassword(userId, newPassword) {
         try {
             const updatedUser = await UsersRepository.updateUserPassword(userId, newPassword)
@@ -66,7 +62,6 @@ class UsersService {
         }
     }
 
-    // Obtener todos los usuarios
     async getAllUsers() {
         try {
             const users = await UsersRepository.getUsers()
@@ -76,7 +71,6 @@ class UsersService {
         }
     }
 
-    // Actualizar el rol del usuario
     async updateUserRole(userId, newRole) {
         try {
             const updatedUser = await UsersRepository.updateUserRole(userId, newRole)
@@ -86,7 +80,6 @@ class UsersService {
         }
     }
 
-    // Obtener usuarios con paginación
     async getUsersPaginated(page, limit) {
         try {
             const paginatedUsers = await UsersRepository.getUsersPaginated(page, limit)
@@ -96,7 +89,6 @@ class UsersService {
         }
     }
 
-    // Eliminar usuario
     async deleteUser(userId) {
         try {
             const result = await UsersRepository.deleteUser(userId)

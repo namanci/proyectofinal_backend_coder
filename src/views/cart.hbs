@@ -1,0 +1,83 @@
+<div class="uk-section">
+    <div class="uk-container">
+        <h1 class="uk-heading-divider uk-heading-bullet">Cart</h1>
+        {{#if cart}}
+        {{#if cart.items.length}}
+        <div class="uk-child-width-1-1@m uk-grid-small uk-grid-match" uk-grid>
+            {{#each cart.items}}
+            <div>
+                <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-grid uk-grid-collapse uk-child-width-1-2@s uk-margin"
+                    uk-grid>
+                    <div class="uk-card-media-left uk-cover-container">
+                        <img src="{{this.product.thumbnail}}" alt="{{this.product.title}}" uk-cover>
+                    </div>
+                    <div>
+                        <h3 class="uk-card-title">{{this.product.title}}</h3>
+                        <p>{{this.product.description}}</p>
+                        <p>Price: ${{this.product.price}}</p>
+                        <p>Quantity: {{this.quantity}}</p>
+                        <button class="uk-button uk-button-danger"
+                            onclick="removeFromCart('{{this.product._id}}')">Remove</button>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <div class="uk-text-center">
+            <h3>Total: ${{cart.totalCost}}</h3>
+            <button class="uk-button uk-button-primary" onclick="checkout()">Pay</button>
+        </div>
+        {{else}}
+        <div class="uk-flex uk-flex-center uk-flex-middle">
+            <div class="uk-text-center">
+                <h2>Your cart is empty</h2>
+                <a href="/products" class="uk-button uk-button-primary">Shop Now</a>
+            </div>
+        </div>
+        {{/if}}
+        {{/if}}
+    </div>
+</div>
+
+<script>
+    async function removeFromCart(productId) {
+        try {
+            const response = await fetch('/api/carts/remove', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId })
+            })
+
+            if (response.ok) {
+                location.reload()
+            } else {
+                console.error('Failed to remove item from cart')
+            }
+        } catch (error) {
+            console.error('Error:', error)
+        }
+    }
+
+    async function checkout() {
+        try {
+            const response = await fetch('/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (response.ok) {
+                UIkit.modal.alert('Purchase completed successfully').then(function () {
+                    location.reload()
+                })
+            } else {
+                console.error('Failed to complete purchase')
+            }
+        } catch (error) {
+            console.error('Error:', error)
+        }
+    }
+</script>

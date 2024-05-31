@@ -1,5 +1,6 @@
 const productsService = require("../services/products.service")
 const usersService = require("../services/users.service")
+const CartsService = require('../services/carts.service.js')
 
 class ViewsController {
     static async renderHome(req, res, next) {
@@ -92,6 +93,15 @@ class ViewsController {
                 user: req.user,
                 users
             })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async renderCart(req, res, next) {
+        try {
+            const cart = await CartsService.getCartByUserId(req.user._id)
+            res.render('cart', { cart: cart ? cart.toObject() : null, user: req.user })
         } catch (error) {
             next(error)
         }

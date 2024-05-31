@@ -12,5 +12,6 @@ router.get('/my-products', isAuthenticated, checkRole(['admin', 'premium']), Vie
 router.get('/my-products/new-product', isAuthenticated, checkRole(['admin', 'premium']), ViewsController.renderNewProduct)
 router.get('/edit-profile', isAuthenticated, ViewsController.renderEditProfile)
 router.get('/manage-users', isAuthenticated, checkRole(['admin']), ViewsController.renderManageUsers)
+router.get('/cart', isAuthenticated, ViewsController.renderCart)
 
 module.exports = router
