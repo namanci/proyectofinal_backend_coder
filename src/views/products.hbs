@@ -14,14 +14,17 @@
                         <img src={{this.thumbnail}} width="639px" height="639px" {{this.title}}>
                     </div>
                     <div class="uk-card-body">
+                        <div class="uk-card-badge uk-label">Stock: {{this.stock}}</div>
                         <h3 class="uk-card-title">{{this.title}}</h3>
                         <p>Price: ${{this.price}}</p>
-                        <p>Stock: {{this.stock}}</p>
                         {{#if ../user}}
                         {{#ifEqualsOrAdmin ../user._id this.owner._id ../user.role}}
-                        <a href="/products/edit/{{this._id}}" class="uk-button uk-button-default uk-button-small">Edit</a>
-                        <button class="uk-button uk-button-small uk-button-danger delete-btn" data-id="{{this._id}}">Delete</button>
+                        <div class="uk-flex uk-margin-bottom">
+                            <a href="/products/edit/{{this._id}}" class="uk-button uk-button-default uk-button-small uk-width-1-2">Edit</a>
+                            <button class="uk-button uk-button-small uk-button-danger uk-width-1-2 delete-btn" data-id="{{this._id}}">Delete</button>
+                        </div>
                         {{/ifEqualsOrAdmin}}
+                        <button class="uk-button uk-button-primary uk-width-1-1 uk-position-bottom add-to-cart-btn" data-id="{{this._id}}"{{#ifEquals ../user._id this.owner._id}}uk-tooltip="You can't buy this product" disabled{{/ifEquals}}>Add to Cart</button>
                         {{/if}}
                     </div>
                 </div>
@@ -30,6 +33,7 @@
         </div>
     </div>
 </div>
+
 {{#if user}}
 <div id="delete-confirm-modal" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
@@ -74,6 +78,32 @@
                     alert('An error occurred while deleting product.')
                 }
             }
+        })
+
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn')
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', async function () {
+                const productId = this.getAttribute('data-id')
+                try {
+                    const response = await fetch('/api/carts/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ productId, quantity: 1 })
+                    })
+
+                    if (response.ok) {
+                        UIkit.notification({ message: 'Product added to cart', status: 'success' })
+                    } else {
+                        const result = await response.json()
+                        UIkit.notification({ message: result.message, status: 'danger' })
+                    }
+                } catch (error) {
+                    console.error('Error:', error)
+                    UIkit.notification({ message: 'An error occurred while adding product to cart.', status: 'danger' })
+                }
+            })
         })
     })
 </script>
